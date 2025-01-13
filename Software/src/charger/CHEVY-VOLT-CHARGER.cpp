@@ -102,7 +102,7 @@ void map_can_frame_to_variable_charger(CAN_frame rx_frame) {
       break;
     default:
 #ifdef DEBUG_LOG
-      logging.printf("CAN Rcv unknown frame MsgID=%x\n", rx_frame.MsgID);
+      logging.print("CAN Rcv unknown frame MsgID=%x\n", rx_frame.MsgID);
 #endif
       break;
   }
@@ -181,11 +181,11 @@ void transmit_can_charger() {
   /* Serial echo every 5s of charger stats */
   if (currentMillis - previousMillis5000ms >= INTERVAL_5_S) {
     previousMillis5000ms = currentMillis;
-    logging.printf("Charger AC in IAC=%fA VAC=%fV\n", charger_stat_ACcur, charger_stat_ACvol);
-    logging.printf("Charger HV out IDC=%fA VDC=%fV\n", charger_stat_HVcur, charger_stat_HVvol);
-    logging.printf("Charger LV out IDC=%fA VDC=%fV\n", charger_stat_LVcur, charger_stat_LVvol);
-    logging.printf("Charger mode=%s\n", (charger_mode > MODE_DISABLED) ? "Enabled" : "Disabled");
-    logging.printf("Charger HVset=%uV,%uA finishCurrent=%uA\n", setpoint_HV_VDC, setpoint_HV_IDC, setpoint_HV_IDC_END);
+    logging.println("Charger AC in IAC=%fA VAC=%fV\n", charger_stat_ACcur, charger_stat_ACvol);
+    logging.println("Charger HV out IDC=%fA VDC=%fV\n", charger_stat_HVcur, charger_stat_HVvol);
+    logging.println("Charger LV out IDC=%fA VDC=%fV\n", charger_stat_LVcur, charger_stat_LVvol);
+    logging.println("Charger mode=%s\n", (charger_mode > MODE_DISABLED) ? "Enabled" : "Disabled");
+    logging.println("Charger HVset=%uV,%uA finishCurrent=%uA\n", setpoint_HV_VDC, setpoint_HV_IDC, setpoint_HV_IDC_END);
   }
 #endif
 }

@@ -1290,7 +1290,7 @@ void onOTAProgress(size_t current, size_t final) {
   if (millis() - ota_progress_millis > 1000) {
     ota_progress_millis = millis();
 #ifdef DEBUG_LOG
-    logging.printf("OTA Progress Current: %u bytes, Final: %u bytes\n", current, final);
+    logging.println("OTA Progress Current: %u bytes, Final: %u bytes\n", current, final);
 #endif  // DEBUG_LOG
     // Reset the "watchdog"
     ota_timeout_timer.reset();

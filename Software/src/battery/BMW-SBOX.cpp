@@ -156,8 +156,8 @@ void transmit_can_shunt() {
         SBOX_100.data.u8[0] = 0x86;  // Precharge relay only
         prechargeStartTime = currentTime;
         contactorStatus = NEGATIVE;
-#ifdef DEBUG_VIA_USB
-        Serial.println("S-BOX Precharge relay engaged");
+#ifdef DEBUG_LOG
+        logging.println("S-BOX Precharge relay engaged");
 #endif
         break;
       case NEGATIVE:
@@ -166,8 +166,8 @@ void transmit_can_shunt() {
           negativeStartTime = currentTime;
           contactorStatus = POSITIVE;
           datalayer.shunt.precharging = true;
-#ifdef DEBUG_VIA_USB
-          Serial.println("S-BOX Negative relay engaged");
+#ifdef DEBUG_LOG
+          logging.println("S-BOX Negative relay engaged");
 #endif
         }
         break;
@@ -179,8 +179,8 @@ void transmit_can_shunt() {
           positiveStartTime = currentTime;
           contactorStatus = PRECHARGE_OFF;
           datalayer.shunt.precharging = false;
-#ifdef DEBUG_VIA_USB
-          Serial.println("S-BOX Positive relay engaged");
+#ifdef DEBUG_LOG
+          logging.println("S-BOX Positive relay engaged");
 #endif
         }
         break;
@@ -188,8 +188,8 @@ void transmit_can_shunt() {
         if (currentTime - positiveStartTime >= CONTACTOR_CONTROL_T3) {
           SBOX_100.data.u8[0] = 0x6A;  // Negative + Positive
           contactorStatus = COMPLETED;
-#ifdef DEBUG_VIA_USB
-          Serial.println("S-BOX Precharge relay released");
+#ifdef DEBUG_LOG
+          logging.println("S-BOX Precharge relay released");
 #endif
           datalayer.shunt.contactors_engaged = true;
         }

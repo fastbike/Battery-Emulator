@@ -297,9 +297,8 @@ void transmit_can_battery() {
 }
 
 void setup_battery(void) {  // Performs one time setup at startup
-#ifdef DEBUG_VIA_USB
-  Serial.println("ECMP battery selected");
-#endif
+  strncpy(datalayer.system.info.battery_protocol, "Stellantis eCMP platform", 63);
+  datalayer.system.info.battery_protocol[63] = '\0';
   datalayer.battery.info.number_of_cells = 108;
   datalayer.battery.info.max_design_voltage_dV = 4546;  // 454.6V, charging over this is not possible
   datalayer.battery.info.min_design_voltage_dV = 3210;  // 321.0V, under this, discharging further is disabled

@@ -404,9 +404,9 @@ void update_values_can_inverter() {  //This function maps all the values fetched
   //SUNGROW_400.data.u8[6] =
   //SUNGROW_400.data.u8[7] =
 
-#ifdef DEBUG_VIA_USB
+#ifdef DEBUG_LOG
   if (inverter_sends_000) {
-    Serial.println("Inverter sends 0x000");
+    logging.println("Inverter sends 0x000");
   }
 #endif
 }
