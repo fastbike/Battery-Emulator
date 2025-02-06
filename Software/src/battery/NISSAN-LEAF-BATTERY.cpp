@@ -38,7 +38,7 @@ CAN_frame LEAF_1D4 = {.FD = false,
                       .ID = 0x1D4,
                       .data = {0x6E, 0x6E, 0x00, 0x04, 0x07, 0x46, 0xE0, 0x44}};
 // Active polling messages
-uint8_t PIDgroups[] = {0x01, 0x02, 0x04, 0x83, 0x84, 0x90};
+uint8_t PIDgroups[] = {0x01, 0x02, 0x04, 0x83, 0x84, 0x90, 0xFF};
 uint8_t PIDindex = 0;
 CAN_frame LEAF_GROUP_REQUEST = {.FD = false,
                                 .ext_ID = false,
@@ -128,6 +128,7 @@ static int16_t battery_temp_polled_min = 0;
 static uint8_t BatterySerialNumber[15] = {0};  // Stores raw HEX values for ASCII chars
 static uint8_t BatteryPartNumber[7] = {0};     // Stores raw HEX values for ASCII chars
 static uint8_t BMSIDcode[8] = {0};
+static uint8_t BatteryFirmwareVersion[8] = {0};
 #ifdef DOUBLE_BATTERY
 static uint8_t LEAF_battery2_Type = ZE0_BATTERY;
 static bool battery2_can_alive = false;
@@ -1057,6 +1058,9 @@ void handle_incoming_can_frame_battery(CAN_frame rx_frame) {
           BMSIDcode[7] = rx_frame.data.u8[4];
         }
       }
+      if (group_7bb == 0xFF) {  //Firmware version
+        //BatteryFirmwareVersion[0] =
+      }
 
       break;
     default:
@@ -1269,7 +1273,7 @@ void transmit_can_battery() {
       if (!stop_battery_query) {
 
         // Move to the next group
-        PIDindex = (PIDindex + 1) % 6;  // 6 = amount of elements in the PIDgroups[]
+        PIDindex = (PIDindex + 1) % 7;  // 7 = amount of elements in the PIDgroups[]
         LEAF_GROUP_REQUEST.data.u8[2] = PIDgroups[PIDindex];
 
         transmit_can_frame(&LEAF_GROUP_REQUEST, can_config.battery);
